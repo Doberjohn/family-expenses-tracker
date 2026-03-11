@@ -1,11 +1,9 @@
 import React from 'react';
 import {
   ShoppingCart,
-  Utensils,
-  Zap,
-  Car,
-  Briefcase,
-  Laptop,
+  ShoppingBasket,
+  Apple,
+  Baby,
   Bell,
   Minus,
   Plus,
@@ -14,15 +12,14 @@ import {
   Pencil,
   X,
   TrendingDown,
+  TrendingUp,
 } from 'lucide-react-native';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   ShoppingCart,
-  Utensils,
-  Zap,
-  Car,
-  Briefcase,
-  Laptop,
+  ShoppingBasket,
+  Apple,
+  Baby,
   Bell,
   Minus,
   Plus,
@@ -31,6 +28,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   Pencil,
   X,
   TrendingDown,
+  TrendingUp,
 };
 
 interface IconProps {
