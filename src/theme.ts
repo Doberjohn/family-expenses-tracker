@@ -10,6 +10,8 @@ export const colors = {
   amberBg: '#FFFBEB',
   indigoBg: '#F0F5FF',
   greenBg: '#F0FDF4',
+  red: '#EF4444',
+  redBg: '#FEF2F2',
   border: '#E5E7EB',
   dimOverlay: 'rgba(0,0,0,0.4)',
 } as const;

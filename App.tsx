@@ -70,11 +70,11 @@ export default function App() {
           {/* Action Buttons */}
           <View style={styles.buttons}>
             <TouchableOpacity style={styles.expenseBtn} onPress={() => openSheet('expense')}>
-              <Icon name="Minus" size={18} color={colors.white} />
+              <Icon name="Minus" size={18} color={colors.red} />
               <Text style={styles.expenseBtnText}>Expense</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.incomeBtn} onPress={() => openSheet('income')}>
-              <Icon name="Plus" size={18} color={colors.dark} />
+              <Icon name="Plus" size={18} color={colors.green} />
               <Text style={styles.incomeBtnText}>Income</Text>
             </TouchableOpacity>
           </View>
@@ -141,13 +141,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 52,
     borderRadius: 16,
-    backgroundColor: colors.dark,
+    backgroundColor: colors.redBg,
     gap: 8,
   },
   expenseBtnText: {
     fontFamily: fonts.bodySemiBold,
     fontSize: 14,
-    color: colors.white,
+    color: colors.red,
   },
   incomeBtn: {
     flex: 1,
@@ -156,13 +156,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 52,
     borderRadius: 16,
-    backgroundColor: colors.cardBg,
+    backgroundColor: colors.greenBg,
     gap: 8,
   },
   incomeBtnText: {
     fontFamily: fonts.bodySemiBold,
     fontSize: 14,
-    color: colors.dark,
+    color: colors.green,
   },
   txnHeader: {
     flexDirection: 'row',
