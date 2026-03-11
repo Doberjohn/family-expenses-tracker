@@ -84,8 +84,8 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
               placeholder="0.00"
               placeholderTextColor={colors.muted}
               keyboardType="decimal-pad"
-              caretHidden={false}
               selectionColor={colors.coral}
+              tintColor={colors.coral}
               onFocus={() => setAmountFocused(true)}
               onBlur={() => setAmountFocused(false)}
               autoFocus
