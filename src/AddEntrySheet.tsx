@@ -1,5 +1,5 @@
-import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard } from 'react-native';
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, Animated } from 'react-native';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetTextInput, BottomSheetView } from '@gorhom/bottom-sheet';
 import { colors, fonts, radii } from './theme';
 import { categories } from './data';
@@ -18,6 +18,24 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [amountFocused, setAmountFocused] = useState(false);
   const amountRef = useRef<TextInput>(null);
+  const cursorOpacity = useRef(new Animated.Value(1)).current;
+
+  const showCursor = amountFocused && amount === '';
+
+  useEffect(() => {
+    if (showCursor) {
+      const blink = Animated.loop(
+        Animated.sequence([
+          Animated.timing(cursorOpacity, { toValue: 0, duration: 400, useNativeDriver: true }),
+          Animated.timing(cursorOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
+        ])
+      );
+      blink.start();
+      return () => blink.stop();
+    } else {
+      cursorOpacity.setValue(0);
+    }
+  }, [showCursor]);
 
   const isExpense = type === 'expense';
   const relevantCategories = useMemo(
@@ -81,6 +99,9 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
           <Text style={styles.amountLabel}>Amount</Text>
           <View style={styles.amountRow}>
             <Text style={styles.eurSign}>€</Text>
+            {showCursor && (
+              <Animated.View style={[styles.fakeCursor, { opacity: cursorOpacity }]} />
+            )}
             <BottomSheetTextInput
               ref={amountRef}
               style={styles.amountInput}
@@ -204,6 +225,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.headingBlack,
     fontSize: 40,
     color: colors.dark,
+  },
+  fakeCursor: {
+    width: 2,
+    height: 36,
+    backgroundColor: colors.coral,
+    marginLeft: 4,
   },
   amountInput: {
     fontFamily: fonts.headingBlack,
