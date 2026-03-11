@@ -128,16 +128,18 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
             <Icon name="ChevronDown" size={18} color={colors.muted} />
           </TouchableOpacity>
 
-          <View style={styles.fieldRow}>
-            <Icon name="Pencil" size={18} color={colors.muted} />
-            <TextInput
-              style={styles.noteInput}
-              value={note}
-              onChangeText={setNote}
-              placeholder="Add a note..."
-              placeholderTextColor={colors.muted}
-            />
-          </View>
+          {currentCategory.name === 'Άλλο' && (
+            <View style={styles.fieldRow}>
+              <Icon name="Pencil" size={18} color={colors.muted} />
+              <TextInput
+                style={styles.noteInput}
+                value={note}
+                onChangeText={setNote}
+                placeholder="Add a note..."
+                placeholderTextColor={colors.muted}
+              />
+            </View>
+          )}
 
           <View style={styles.paidByRow}>
             <TouchableOpacity
