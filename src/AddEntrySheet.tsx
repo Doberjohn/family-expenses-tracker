@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard } from 'react-native';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { colors, fonts, radii } from './theme';
@@ -17,6 +17,7 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
   const [paidBy, setPaidBy] = useState<PaidBy>('Christina');
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [amountFocused, setAmountFocused] = useState(false);
+  const amountRef = useRef<TextInput>(null);
 
   const isExpense = type === 'expense';
   const relevantCategories = useMemo(
@@ -63,7 +64,10 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
       backdropComponent={renderBackdrop}
       backgroundStyle={styles.sheetBg}
       handleIndicatorStyle={styles.handle}
-      onChange={(index) => { if (index === -1) Keyboard.dismiss(); }}
+      onChange={(index) => {
+        if (index === -1) Keyboard.dismiss();
+        else setTimeout(() => amountRef.current?.focus(), 100);
+      }}
     >
       <BottomSheetView style={styles.content}>
         <View style={styles.header}>
@@ -78,6 +82,7 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
           <View style={styles.amountRow}>
             <Text style={styles.eurSign}>€</Text>
             <TextInput
+              ref={amountRef}
               style={styles.amountInput}
               value={amount}
               onChangeText={setAmount}
@@ -88,7 +93,6 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
               tintColor={colors.coral}
               onFocus={() => setAmountFocused(true)}
               onBlur={() => setAmountFocused(false)}
-              autoFocus
             />
           </View>
           <View style={[styles.amountUnderline, amountFocused && styles.amountUnderlineActive]} />
