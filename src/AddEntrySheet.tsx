@@ -16,6 +16,7 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
   const [note, setNote] = useState('');
   const [paidBy, setPaidBy] = useState<PaidBy>('Christina');
   const [categoryIndex, setCategoryIndex] = useState(0);
+  const [amountFocused, setAmountFocused] = useState(false);
 
   const isExpense = type === 'expense';
   const relevantCategories = useMemo(
@@ -83,8 +84,14 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
               placeholder="0.00"
               placeholderTextColor={colors.muted}
               keyboardType="decimal-pad"
+              caretHidden={false}
+              selectionColor={colors.coral}
+              onFocus={() => setAmountFocused(true)}
+              onBlur={() => setAmountFocused(false)}
+              autoFocus
             />
           </View>
+          <View style={[styles.amountUnderline, amountFocused && styles.amountUnderlineActive]} />
         </View>
 
         <View style={styles.fields}>
@@ -200,6 +207,15 @@ const styles = StyleSheet.create({
     color: colors.dark,
     minWidth: 80,
     textAlign: 'center',
+  },
+  amountUnderline: {
+    width: 120,
+    height: 2,
+    backgroundColor: colors.border,
+    borderRadius: 1,
+  },
+  amountUnderlineActive: {
+    backgroundColor: colors.coral,
   },
   fields: {
     gap: 12,
