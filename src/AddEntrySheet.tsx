@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard } from 'react-native';
-import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetTextInput, BottomSheetView } from '@gorhom/bottom-sheet';
 import { colors, fonts, radii } from './theme';
 import { categories } from './data';
 import { Category, PaidBy, TransactionType } from './types';
@@ -81,7 +81,7 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
           <Text style={styles.amountLabel}>Amount</Text>
           <View style={styles.amountRow}>
             <Text style={styles.eurSign}>€</Text>
-            <TextInput
+            <BottomSheetTextInput
               ref={amountRef}
               style={styles.amountInput}
               value={amount}
