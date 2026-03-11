@@ -38,7 +38,10 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
   }, [showCursor]);
 
   const isExpense = type === 'expense';
-  const relevantCategories = categories;
+  const relevantCategories = useMemo(
+    () => categories.filter(c => c.type === type || c.type === 'both'),
+    [type]
+  );
 
   const snapPoints = useMemo(() => ['62%'], []);
 
