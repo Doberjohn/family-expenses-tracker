@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -16,8 +16,8 @@ import {
 } from '@expo-google-fonts/bricolage-grotesque';
 
 import { colors, fonts } from './src/theme';
-import { sampleTransactions } from './src/data';
-import { Category, PaidBy, Transaction, TransactionType } from './src/types';
+import { Category, PaidBy, TransactionType } from './src/types';
+import { useTransactions } from './src/useTransactions';
 import BalanceCard from './src/BalanceCard';
 import TransactionRow from './src/TransactionRow';
 import AddEntrySheet from './src/AddEntrySheet';
@@ -33,15 +33,9 @@ export default function App() {
     BricolageGrotesque_800ExtraBold,
   });
 
-  const [transactions, setTransactions] = useState<Transaction[]>(sampleTransactions);
+  const { transactions, total, loading, addTransaction } = useTransactions();
   const [sheetType, setSheetType] = useState<TransactionType>('expense');
   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const total = useMemo(() => {
-    return transactions.reduce((sum, t) => {
-      return t.type === 'income' ? sum + t.amount : sum - t.amount;
-    }, 0);
-  }, [transactions]);
 
   const openSheet = useCallback((type: TransactionType) => {
     setSheetType(type);
@@ -49,17 +43,8 @@ export default function App() {
   }, []);
 
   const handleAdd = useCallback((entry: { amount: number; category: Category; note: string; paidBy: PaidBy; type: TransactionType }) => {
-    const newTx: Transaction = {
-      id: Date.now().toString(),
-      amount: entry.amount,
-      type: entry.type,
-      category: entry.category,
-      note: entry.note,
-      paidBy: entry.paidBy,
-      date: new Date(),
-    };
-    setTransactions((prev) => [newTx, ...prev]);
-  }, []);
+    addTransaction(entry);
+  }, [addTransaction]);
 
   if (!fontsLoaded) return null;
 
