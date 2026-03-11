@@ -4,6 +4,7 @@ export const colors = {
   muted: '#9CA3AF',
   cardBg: '#F6F7F8',
   white: '#FFFFFF',
+  purple: '#8B5CF6',
   indigo: '#6366F1',
   green: '#22C55E',
   amber: '#D97706',

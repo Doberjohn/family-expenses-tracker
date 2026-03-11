@@ -33,7 +33,7 @@ export default function App() {
     BricolageGrotesque_800ExtraBold,
   });
 
-  const { transactions, currentMonthTotal, previousMonthTotal, loading, addTransaction } = useTransactions();
+  const { transactions, currentMonthTotal, previousMonthTotal, loading, addTransaction, deleteTransaction } = useTransactions();
   const [sheetType, setSheetType] = useState<TransactionType>('expense');
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -90,7 +90,7 @@ export default function App() {
           <FlatList
             data={transactions}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <TransactionRow transaction={item} />}
+            renderItem={({ item }) => <TransactionRow transaction={item} onDelete={deleteTransaction} />}
             contentContainerStyle={styles.list}
             showsVerticalScrollIndicator={false}
           />

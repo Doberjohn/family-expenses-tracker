@@ -46,7 +46,7 @@ export default function BalanceCard({ total, previousMonthTotal }: BalanceCardPr
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.coral,
+    backgroundColor: colors.purple,
     borderRadius: radii.card,
     padding: 20,
     gap: 12,

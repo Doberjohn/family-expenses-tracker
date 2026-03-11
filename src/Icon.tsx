@@ -17,6 +17,7 @@ import {
   X,
   TrendingDown,
   TrendingUp,
+  Trash2,
 } from 'lucide-react-native';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
@@ -37,6 +38,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   X,
   TrendingDown,
   TrendingUp,
+  Trash2,
 };
 
 interface IconProps {
