@@ -14,7 +14,7 @@ interface AddEntrySheetProps {
 const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd }, ref) => {
   const [amount, setAmount] = useState('');
   const [note, setNote] = useState('');
-  const [paidBy, setPaidBy] = useState<PaidBy>('John');
+  const [paidBy, setPaidBy] = useState<PaidBy>('Christina');
   const [categoryIndex, setCategoryIndex] = useState(0);
 
   const isExpense = type === 'expense';
@@ -37,7 +37,7 @@ const AddEntrySheet = forwardRef<BottomSheet, AddEntrySheetProps>(({ type, onAdd
     });
     setAmount('');
     setNote('');
-    setPaidBy('John');
+    setPaidBy('Christina');
     setCategoryIndex(0);
     (ref as any)?.current?.close();
   };

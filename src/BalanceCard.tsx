@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors, fonts, radii } from './theme';
 import Icon from './Icon';
 
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+const SHORT_MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 interface BalanceCardProps {
   total: number;
+  previousMonthTotal: number;
 }
 
-export default function BalanceCard({ total }: BalanceCardProps) {
+export default function BalanceCard({ total, previousMonthTotal }: BalanceCardProps) {
+  const now = new Date();
+  const currentMonthName = MONTH_NAMES[now.getMonth()];
+  const prevMonthName = SHORT_MONTH_NAMES[(now.getMonth() + 11) % 12];
+
+  const comparison = useMemo(() => {
+    if (previousMonthTotal === 0) return null;
+    const diff = ((total - previousMonthTotal) / Math.abs(previousMonthTotal)) * 100;
+    const absDiff = Math.abs(Math.round(diff));
+    const isMore = diff > 0;
+    return { absDiff, isMore };
+  }, [total, previousMonthTotal]);
+
   return (
     <View style={styles.card}>
-      <Text style={styles.label}>Total Balance — March</Text>
+      <Text style={styles.label}>Total Balance — {currentMonthName}</Text>
       <Text style={styles.amount}>€{total.toLocaleString('en', { minimumFractionDigits: 2 })}</Text>
-      <View style={styles.badgeRow}>
-        <View style={styles.badge}>
-          <Icon name="TrendingDown" size={14} color={colors.white} />
-          <Text style={styles.badgeText}>12% less than Feb</Text>
+      {comparison && comparison.absDiff > 0 && (
+        <View style={styles.badgeRow}>
+          <View style={styles.badge}>
+            <Icon name={comparison.isMore ? 'TrendingUp' : 'TrendingDown'} size={14} color={colors.white} />
+            <Text style={styles.badgeText}>
+              {comparison.absDiff}% {comparison.isMore ? 'more' : 'less'} than {prevMonthName}
+            </Text>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 }

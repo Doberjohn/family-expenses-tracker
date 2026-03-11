@@ -33,7 +33,7 @@ export default function App() {
     BricolageGrotesque_800ExtraBold,
   });
 
-  const { transactions, total, loading, addTransaction } = useTransactions();
+  const { transactions, currentMonthTotal, previousMonthTotal, loading, addTransaction } = useTransactions();
   const [sheetType, setSheetType] = useState<TransactionType>('expense');
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -65,7 +65,7 @@ export default function App() {
           </View>
 
           {/* Balance Card */}
-          <BalanceCard total={total} />
+          <BalanceCard total={currentMonthTotal} previousMonthTotal={previousMonthTotal} />
 
           {/* Action Buttons */}
           <View style={styles.buttons}>

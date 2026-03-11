@@ -54,11 +54,31 @@ export function useTransactions() {
     return unsubscribe;
   }, []);
 
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  const prevDate = new Date(currentYear, currentMonth - 1, 1);
+  const prevMonth = prevDate.getMonth();
+  const prevYear = prevDate.getFullYear();
+
   const total = useMemo(() => {
     return transactions.reduce((sum, t) => {
       return t.type === 'income' ? sum + t.amount : sum - t.amount;
     }, 0);
   }, [transactions]);
+
+  const currentMonthTotal = useMemo(() => {
+    return transactions
+      .filter((t) => t.date.getMonth() === currentMonth && t.date.getFullYear() === currentYear)
+      .reduce((sum, t) => (t.type === 'income' ? sum + t.amount : sum - t.amount), 0);
+  }, [transactions, currentMonth, currentYear]);
+
+  const previousMonthTotal = useMemo(() => {
+    return transactions
+      .filter((t) => t.date.getMonth() === prevMonth && t.date.getFullYear() === prevYear)
+      .reduce((sum, t) => (t.type === 'income' ? sum + t.amount : sum - t.amount), 0);
+  }, [transactions, prevMonth, prevYear]);
 
   const addTransaction = async (entry: {
     amount: number;
@@ -82,5 +102,5 @@ export function useTransactions() {
     await deleteDoc(doc(db, COLLECTION, id));
   };
 
-  return { transactions, total, loading, addTransaction, deleteTransaction };
+  return { transactions, total, currentMonthTotal, previousMonthTotal, loading, addTransaction, deleteTransaction };
 }
